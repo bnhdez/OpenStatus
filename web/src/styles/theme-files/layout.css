@@ -1,0 +1,15 @@
+.card-custom {
+    /* Usamos var() */
+    border: 2px solid var(--mi-color-favorito);
+    padding: 2rem;
+    border-radius: 1rem;
+
+    /* Ahora @apply SÍ funcionará porque importamos tailwind arriba */
+    @apply bg-slate-800 text-white shadow-xl;
+
+    /* El nesting (anidamiento) funciona nativamente en CSS moderno */
+    h2 {
+        /* color-mix es la forma moderna de hacer 'lighten' */
+        color: color-mix(in srgb, var(--mi-color-favorito), white 20%);
+    }
+}
