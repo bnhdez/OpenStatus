@@ -1,0 +1,36 @@
+name: OpenStatus Monitor 📡
+
+on:
+  # 1. Ejecutar automáticamente cada 10 minutos
+  schedule:
+    - cron: '*/10 * * * *'
+  # 2. Permitir que tú lo ejecutes manualmente desde la pestaña "Actions" (útil para probar)
+  workflow_dispatch:
+
+jobs:
+  check-sites:
+    runs-on: ubuntu-latest # Usamos una máquina virtual Linux estándar
+
+    steps:
+      - name: 📥 Descargar tu código (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 🟢 Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 📦 Instalar dependencias
+        # Entramos a la carpeta 'scripts' porque ahí está tu package.json
+        run: |
+          cd scripts
+          npm install
+
+      - name: 🚀 Ejecutar script de monitoreo
+        # Aquí inyectamos las llaves secretas para que el script pueda usarlas
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          cd scripts
+          node ping.js
