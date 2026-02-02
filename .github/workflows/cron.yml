@@ -10,6 +10,7 @@ on:
 jobs:
   check-sites:
     runs-on: ubuntu-latest # Usamos una máquina virtual Linux estándar
+    timeout-minutes: 3 #si tarda más de 3 minutos, se cancela el job
 
     steps:
       - name: 📥 Descargar tu código (Checkout)
