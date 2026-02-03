@@ -7,8 +7,13 @@ export interface Site {
     url: string;
     is_active: boolean;
     // Estos campos ahora vendrán "aplanados"
-    last_latency: number | null;
+    latency_history: HistoryPoint[];
     last_status: number | null;
+}
+
+interface HistoryPoint {
+    time: string; // x
+    latency: number; // y
 }
 
 export function useSites() {
@@ -27,10 +32,11 @@ export function useSites() {
                         *,
                         pings (
                             latency,
-                            status
+                            status,
+                            created_at
                         )
                     `)
-                    .limit(1, { referencedTable: 'pings' })
+                    .limit(20, { referencedTable: 'pings' })
                     .order('created_at', { ascending: false, referencedTable: 'pings' });
 
                 if (error) throw error;
@@ -51,31 +57,24 @@ export function useSites() {
                         }
                     */
 
-                    // <--- PASO 3: La Extracción Quirúrgica (Tu duda principal)
-                    const lastPing =
-                        site.pings && site.pings.length > 0 // ¿Existe la carpeta 'pings' Y tiene algo adentro?
-                        ? site.pings[0] // VERDADERO: Toma el primer elemento (el índice 0)
-                        : null; // FALSO: Devuelve null (no hay datos)
+                    const history = site.pings || [];
 
-                    /*
-                        DESGLOSE DEL TERNARIO ( ? : ):
-                        1. site.pings: Verifica que la propiedad no sea undefined.
-                        2. site.pings.length > 0: Verifica que el array no esté vacío [].
-
-                        ¿Por qué [0]?
-                        Porque en la consulta anterior usamos .order('created_at', descending) y .limit(1).
-                        Por lo tanto, el elemento en la posición 0 SIEMPRE es el más reciente.
-                    */
-
-                    // <--- PASO 4: El Aplanado (Flattening)
                     return {
                         id: site.id,
                         name: site.name,
                         url: site.url,
                         is_active: site.is_active,
                         // aplanamos los datos del array y los ponemos al nivel principal para tener { name: Google, latency: 45 }
-                        last_latency: lastPing ? lastPing.latency : null,
-                        last_status: lastPing ? lastPing.status : null,
+                        latency_history: history.map((ping:any) => {
+                            const date = new Date(ping.created_at);
+                            const formattedTime = date.toLocaleDateString('es-SV', { hour: '2-digit', minute: '2-digit' })
+
+                            return {
+                                time: formattedTime,
+                                latency: ping.latency
+                            }
+                        }).reverse(), // revierte el orden para leer de izquierda a derecha cronologicamente
+                        last_status: history.length > 0 ? history[0].status : null,
                     }
                 })
 
