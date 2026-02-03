@@ -11,13 +11,29 @@ function App() {
         <h2>Panel de Control</h2>
         
         {loading ? (
-            <p className="text-slate-400">Cargando motor...</p>
+            <p className="text-slate-400">Cargando métricas...</p>
         ) : (
           <ul className="space-y-2 text-left">
             {sites.map((site) => (
-              <li key={site.id} className="text-slate-200 bg-slate-800 p-2 rounded border border-slate-700">
-                <span className="font-bold text-emerald-300">{site.name}: </span> 
-                {site.url}
+              <li key={site.id} className="flex justify-between items-center bg-slate-800 p-3 rounded border border-slate-700">
+                <div>
+                  <div className="font-bold text-emerald-300 text-lg">{site.name}</div>
+                  <div className="text-xs text-slate-400">{site.url}</div>
+                </div>
+
+                {/* Columna Derecha: Estado (Lo nuevo) */}
+                <div className="text-right">
+                  {/* Badge de Latencia */}
+                  <div className="text-xl font-mono font-bold text-white">
+                    {site.last_latency ? `${site.last_latency}ms` : '-'}
+                  </div>
+                  {/* Badge de Status */}
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${
+                    site.last_status === 200 ? 'bg-emerald-900 text-emerald-300' : 'bg-red-900 text-red-300'
+                  }`}>
+                    {site.last_status === 200 ? 'ONLINE' : 'ERROR'}
+                  </span>
+                </div>
               </li>
             ))}
           </ul>
