@@ -5,14 +5,16 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import LoginModal from "./components/LoginModal";
 import AddSiteForm from "./components/AddSiteForm";
+import { DeleteModal } from "./components/DeleteModal";
 
 function App() {
   const { sites, loading, refresh } = useSites();
   const { session, logout } = useAuth();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [siteToDelete, setsiteToDelete] = useState<{ id: number, name: string } | null>(null);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-slate-950">
+    <div className="min-h-screen flex flex-col items-center gap-6 bg-slate-950 py-10">
       <h1 className="text-5xl font-bold text-emerald-400 mb-7">OpenStatus 📡</h1>
 
       {session && (
@@ -30,7 +32,7 @@ function App() {
         ) : (
           <ul className="space-y-2 text-left">
             {sites.map((site) => (
-              <li key={site.id} className="relative bg-slate-800 p-3 rounded border border-slate-700">
+              <li key={site.siteId} className="relative bg-slate-800 p-3 rounded border border-slate-700">
                 <div className="flex justify-between items-center mb-4">
                   <div>
                     <div className="font-bold text-emerald-300 text-lg">{site.name}</div>
@@ -39,9 +41,15 @@ function App() {
 
                   <div className="text-right">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      site.last_status === 200 ? 'bg-emerald-900 text-emerald-300' : 'bg-red-900 text-red-300'
+                      site.last_status === 200 
+                        ? 'bg-emerald-900 text-emerald-300'
+                        : site.last_status === null ? 'bg-amber-300 text-black'
+                        : 'bg-red-900 text-red-300'
                     }`}>
-                      {site.last_status === 200 ? 'ONLINE' : 'ERROR'}
+                      {site.last_status === 200
+                        ? 'ONLINE'
+                        : site.last_status === null ? 'PENDING'
+                        : 'ERROR'}
                     </span>
                   </div>
                 </div>
@@ -74,7 +82,7 @@ function App() {
                     <button 
                         className="absolute bottom-2 right-2 p-1 bg-red-900/50 text-red-400 rounded hover:bg-red-600 hover:text-white transition-colors z-10"
                         title="Eliminar sitio"
-                        onClick={() => { /* Lógica de borrar pendiente */ }}
+                        onClick={() => { setsiteToDelete({ id: site.siteId, name: site.name }) }}
                     >
                         <Trash2 size={16} />
                     </button>
@@ -87,7 +95,7 @@ function App() {
       </div>
 
       {/* --- FOOTER DISCRETO --- */}
-      <footer className="fixed bottom-4 text-slate-800 text-xs flex gap-2 items-center">
+      <footer className="text-slate-500 text-xs flex gap-2 items-center mt-auto">
         <span>© 2026 OpenStatus</span>
         
         {/* EL GATILLO SECRETO */}
@@ -109,6 +117,13 @@ function App() {
 
       {/* EL MODAL */}
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      
+      <DeleteModal 
+        siteName={siteToDelete?.name ?? ""}
+        siteId={siteToDelete?.id ?? null} 
+        onClose={() => setsiteToDelete(null)} 
+        onDeleted={refresh}
+      />
 
     </div>
   );

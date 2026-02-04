@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabaseClient } from "../lib/supabase";
 
 export interface Site {
-    id: number;
+    siteId: number;
     name: string;
     url: string;
     is_active: boolean;
@@ -58,7 +58,7 @@ export function useSites() {
                     const history = site.pings || [];
 
                     return {
-                        id: site.id,
+                        siteId: site.id,
                         name: site.name,
                         url: site.url,
                         is_active: site.is_active,
@@ -85,6 +85,27 @@ export function useSites() {
         }
     }
 
+    const deleteSites = async (siteId: number) => {
+
+        try {
+            
+            const { error } = await supabaseClient
+                .from('sites')
+                .delete()
+                .eq('id', siteId);
+
+            if (error) {
+                throw error;
+            }
+
+        } catch (error) {
+            console.error( 'Error al borrar sitio: ' + error );
+        } finally {
+            fetchSites();
+        }
+
+    }
+
     // para ejecutar la peticion a la base de datos una sola vez
     useEffect(() => {
         fetchSites();
@@ -94,6 +115,7 @@ export function useSites() {
         sites,
         loading,
         // alias refresh
-        refresh: fetchSites
+        refresh: fetchSites,
+        removeSite: deleteSites
     };
 }
