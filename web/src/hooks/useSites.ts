@@ -21,14 +21,12 @@ export function useSites() {
     const [sites, setSites] = useState<Site[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // para ejecutar la peticion a la base de datos una sola vez
-    useEffect(() => {
-        async function fetchSites() {
-            try {
-                setLoading(true);
-                const { data, error } = await supabaseClient
-                    .from('sites')
-                    .select(`
+    const fetchSites = async () => {
+        try {
+            setLoading(true);
+            const { data, error } = await supabaseClient
+                .from('sites')
+                .select(`
                         *,
                         pings (
                             latency,
@@ -36,18 +34,18 @@ export function useSites() {
                             created_at
                         )
                     `)
-                    .limit(20, { referencedTable: 'pings' })
-                    .order('created_at', { ascending: false, referencedTable: 'pings' });
+                .limit(20, { referencedTable: 'pings' })
+                .order('created_at', { ascending: false, referencedTable: 'pings' });
 
-                if (error) throw error;
+            if (error) throw error;
 
-                const transformedData: Site[] = (data || [])// <--- PASO 1: El Escudo Protector
+            const transformedData: Site[] = (data || [])// <--- PASO 1: El Escudo Protector
                 /* EXPLICACIÓN PASO 1:
                     Si 'data' es null, el código explotaría al intentar hacer '.map()'.
                     Con (data || []), le decimos: "Usa 'data', pero si es null, usa un array vacío []".
                     Así el .map simplemente no corre y no rompe la app.
                 */
-                .map( (site:any) => { // <--- PASO 2: El Bucle
+                .map((site: any) => { // <--- PASO 2: El Bucle
                     /*
                         Aquí 'site' es el objeto crudo que viene de la DB.
                         Se ve así:
@@ -65,7 +63,7 @@ export function useSites() {
                         url: site.url,
                         is_active: site.is_active,
                         // aplanamos los datos del array y los ponemos al nivel principal para tener { name: Google, latency: 45 }
-                        latency_history: history.map((ping:any) => {
+                        latency_history: history.map((ping: any) => {
                             const date = new Date(ping.created_at);
                             const formattedTime = date.toLocaleDateString('es-SV', { hour: '2-digit', minute: '2-digit' })
 
@@ -78,17 +76,24 @@ export function useSites() {
                     }
                 })
 
-                setSites(transformedData);
+            setSites(transformedData);
 
-            } catch (error) {
-                console.error("Error fetching sites:", error);
-            } finally {
-                setLoading(false);
-            }
+        } catch (error) {
+            console.error("Error fetching sites:", error);
+        } finally {
+            setLoading(false);
         }
+    }
 
+    // para ejecutar la peticion a la base de datos una sola vez
+    useEffect(() => {
         fetchSites();
     }, []);
 
-    return { sites, loading };
+    return { 
+        sites,
+        loading,
+        // alias refresh
+        refresh: fetchSites
+    };
 }

@@ -4,9 +4,10 @@ import { useAuth } from "./hooks/useAuth";
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import LoginModal from "./components/LoginModal";
+import AddSiteForm from "./components/AddSiteForm";
 
 function App() {
-  const { sites, loading } = useSites();
+  const { sites, loading, refresh } = useSites();
   const { session, logout } = useAuth();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -16,8 +17,8 @@ function App() {
 
       {session && (
         <div className="mb-8 p-4 border border-emerald-800 bg-emerald-900/20 rounded w-full max-w-lg text-center">
-            <p className="text-emerald-400 font-bold">Modo Administrador Activo</p>
-            {/* Aquí luego pondremos el AddSiteForm */}
+            <p className="text-emerald-400 font-bold mb-5">Modo Administrador Activo</p>
+            <AddSiteForm onSiteAdded={ refresh } />
         </div>
       )}
 
