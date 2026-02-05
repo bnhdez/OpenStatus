@@ -1,11 +1,10 @@
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { useSites } from "./hooks/useSites";
 import { useAuth } from "./hooks/useAuth";
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
 import LoginModal from "./components/LoginModal";
 import AddSiteForm from "./components/AddSiteForm";
 import { DeleteModal } from "./components/DeleteModal";
+import { SiteCard } from "./components/SiteCard";
 
 function App() {
   const { sites, loading, refresh } = useSites();
@@ -30,68 +29,32 @@ function App() {
         {loading ? (
             <p className="text-slate-400">Cargando métricas...</p>
         ) : (
-          <ul className="space-y-2 text-left">
+          /* Usamos grid para diseño tipo tarjetas */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-5xl">
             {sites.map((site) => (
-              <li key={site.siteId} className="relative bg-slate-800 p-3 rounded border border-slate-700">
-                <div className="flex justify-between items-center mb-4">
-                  <div>
-                    <div className="font-bold text-emerald-300 text-lg">{site.name}</div>
-                    <div className="text-xs text-slate-400">{site.url}</div>
-                  </div>
-
-                  <div className="text-right">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      site.last_status === 200 
-                        ? 'bg-emerald-900 text-emerald-300'
-                        : site.last_status === null ? 'bg-amber-300 text-black'
-                        : 'bg-red-900 text-red-300'
-                    }`}>
-                      {site.last_status === 200
-                        ? 'ONLINE'
-                        : site.last_status === null ? 'PENDING'
-                        : 'ERROR'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="h-[100px] w-[250px]"> 
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={site.latency_history}>
-                      <XAxis dataKey="time" hide/>
-                      <Tooltip
-                        contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #334155", borderRadius: "8px" }}
-                        itemStyle={{ color: "#34d399" }}
-                        labelStyle={{ color: "#94a3b8", fontSize: "12px", marginBottom: "5px" }}
-                        formatter={(value) => [`${value}ms`, "Latencia"]}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="latency" // <-- viene de HistoryPoint[]
-                        stroke="#10b981" // Color Esmeralda
-                        strokeWidth={2} 
-                        dot={false} // Sin puntos para que se vea limpio
-                        isAnimationActive={true}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-
-                {/* BOTÓN DE BORRAR (SOLO ADMIN) */}
-                {/* Usamos 'absolute' para ponerlo en la esquina y que no estorbe */}
-                {session && (
-                    <button 
-                        className="absolute bottom-2 right-2 p-1 bg-red-900/50 text-red-400 rounded hover:bg-red-600 hover:text-white transition-colors z-10"
-                        title="Eliminar sitio"
-                        onClick={() => { setsiteToDelete({ id: site.siteId, name: site.name }) }}
-                    >
-                        <Trash2 size={16} />
-                    </button>
-                )}
-
-              </li>
+              <SiteCard 
+                key={site.siteId}
+                
+                // Conectamos datos básicos
+                siteName={site.name}
+                url={site.url}
+                
+                // Convertimos tu status numérico (200, null) al string que pide el diseño ('online', 'pending')
+                status={
+                    site.last_status === 200 ? 'online' : 
+                    site.last_status === null ? 'pending' : 'error'
+                }
+                
+                // Pasamos el historial para la gráfica
+                history={site.latency_history}
+                
+                // Conectamos el borrado
+                onDelete={session ? () => setsiteToDelete({ id: site.siteId, name: site.name }) : undefined}
+              />
             ))}
-          </ul>
+          </div>
         )}
+        
       </div>
 
       {/* --- FOOTER DISCRETO --- */}
