@@ -48,7 +48,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
             <div className="flex flex-col md:flex-row gap-4">
             {/* Name Input */}
             <div className="flex-1">
-                <label htmlFor="site-name" className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="site-name" className="block text-sm font-medium text-black dark:text-slate-300 mb-2">
                 Nombre del Sito
                 </label>
                 <input
@@ -57,7 +57,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="(ej: Mi blog)"
-                className="w-full bg-zinc-950 border border-zinc-800 text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
+                className="w-full bg-gray-200 dark:bg-zinc-900/50 border border-zinc-800 text-zinc-900 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
                 disabled={isSubmitting}
                 required
                 />
@@ -65,7 +65,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
 
             {/* URL Input */}
             <div className="flex-1">
-                <label htmlFor="site-url" className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="site-url" className="block text-sm font-medium text-black dark:text-slate-300 mb-2">
                 URL
                 </label>
                 <input
@@ -74,7 +74,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full bg-zinc-950 border border-zinc-800 text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
+                className="w-full bg-gray-200 dark:bg-zinc-900/50 border border-zinc-800 text-zinc-900 dark:text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
                 disabled={isSubmitting}
                 required
                 />

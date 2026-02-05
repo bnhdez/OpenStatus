@@ -35,11 +35,11 @@ const getStatusLabel = () => {
 };
 
 return (
-    <div className="group relative bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 rounded-xl p-6 transition-all duration-300 h-full flex flex-col backdrop-blur-sm">
+    <div className="group relative bg-white dark:bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 rounded-xl p-6 transition-all duration-300 h-full flex flex-col backdrop-blur-sm">
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
             <div className="flex-1 min-w-0 pr-4">
-            <h3 className="text-lg font-bold text-white mb-1 truncate">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-1 truncate">
                 {siteName}
             </h3>
             <p className="text-sm text-slate-400 truncate">
@@ -85,7 +85,7 @@ return (
                 e.stopPropagation(); // Evita clics accidentales en la tarjeta si agregamos navegación luego
                 onDelete();
             }}
-            className="absolute bottom-4 right-4 p-2 rounded-lg bg-red-500/10 text-red-500 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-500 hover:text-white z-10"
+            className="absolute bottom-4 right-4 p-2 rounded-lg bg-red-500/10 text-red-500 opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-500 hover:text-zinc-900 dark:text-white z-10"
             title="Eliminar sitio"
             >
             <Trash2 className="w-4 h-4" />
