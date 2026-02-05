@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabaseClient } from '../lib/supabase';
+import { Loader2, Plus } from 'lucide-react';
 
 interface Props{
     onSiteAdded: () => void
@@ -42,35 +43,61 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
-            <div className="flex gap-2">
-                {/* Input Nombre */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Inputs Container - responsive: stacked on mobile, side-by-side on larger screens */}
+            <div className="flex flex-col md:flex-row gap-4">
+            {/* Name Input */}
+            <div className="flex-1">
+                <label htmlFor="site-name" className="block text-sm font-medium text-slate-300 mb-2">
+                Nombre del Sito
+                </label>
                 <input
+                id="site-name"
                 type="text"
-                placeholder="Nombre del sitio (ej: Mi Blog)"
-                className="flex-1 bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-500"
-                required
-                value={ name }
+                value={name}
                 onChange={(e) => setName(e.target.value)}
-                />
-
-                {/* Input URL */}
-                <input
-                type="url"
-                placeholder="https://..."
-                className="flex-2 bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-500"
+                placeholder="(ej: Mi blog)"
+                className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-colors"
+                disabled={isSubmitting}
                 required
-                value={ url }
-                onChange={(e) => setUrl(e.target.value)}
                 />
             </div>
 
-            <button
-                type="submit"
-                className={`bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded transition-all active:scale-95 shadow-lg shadow-emerald-900/20 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+            {/* URL Input */}
+            <div className="flex-1">
+                <label htmlFor="site-url" className="block text-sm font-medium text-slate-300 mb-2">
+                URL
+                </label>
+                <input
+                id="site-url"
+                type="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://example.com"
+                className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-colors"
                 disabled={isSubmitting}
+                required
+                />
+            </div>
+            </div>
+
+            {/* Submit Button with Gradient */}
+            <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full px-6 py-3 bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-                { isSubmitting ? 'Guardando...' : 'Agregar Sitio' }
+            {isSubmitting ? (
+                <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Adding Monitor...</span>
+                </>
+            ) : (
+                <>
+                <Plus className="w-5 h-5" />
+                <span>Add Monitor</span>
+                </>
+            )}
             </button>
         </form>
     );
