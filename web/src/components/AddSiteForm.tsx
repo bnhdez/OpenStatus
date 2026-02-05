@@ -57,7 +57,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="(ej: Mi blog)"
-                className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-colors"
+                className="w-full bg-zinc-950 border border-zinc-800 text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
                 disabled={isSubmitting}
                 required
                 />
@@ -74,7 +74,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-colors"
+                className="w-full bg-zinc-950 border border-zinc-800 text-white p-2.5 rounded-lg focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-600 pl-3"
                 disabled={isSubmitting}
                 required
                 />
@@ -85,7 +85,7 @@ const AddSiteForm = ({onSiteAdded}: Props) => {
             <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full px-6 py-3 bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-linear-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
             {isSubmitting ? (
                 <>

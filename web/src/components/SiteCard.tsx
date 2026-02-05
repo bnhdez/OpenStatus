@@ -35,7 +35,7 @@ const getStatusLabel = () => {
 };
 
 return (
-    <div className="group relative bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors h-full flex flex-col">
+    <div className="group relative bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 rounded-xl p-6 transition-all duration-300 h-full flex flex-col backdrop-blur-sm">
         {/* Header Section */}
         <div className="flex items-start justify-between mb-6">
             <div className="flex-1 min-w-0 pr-4">
@@ -60,15 +60,15 @@ return (
                 <LineChart data={history}>
                     <XAxis dataKey="time" hide/>
                     <Tooltip
-                    contentStyle={{ backgroundColor: "#0f172a", border: "1px solid #334155", borderRadius: "8px" }}
-                    itemStyle={{ color: "#34d399" }}
-                    labelStyle={{ color: "#94a3b8", fontSize: "12px", marginBottom: "5px" }}
+                    contentStyle={{ backgroundColor: "#09090b", border: "1px solid #27272a", borderRadius: "8px" }}
+                    itemStyle={{ color: "#22d3ee" }}
+                    labelStyle={{ color: "#a1a1aa", fontSize: "12px", marginBottom: "5px" }}
                     formatter={(value) => [`${value}ms`, "Latencia"]}
                     />
                     <Line 
                     type="monotone" 
                     dataKey="latency"
-                    stroke={status === 'online' ? "#10b981" : status === 'error' ? "#ef4444" : "#fbbf24"}
+                    stroke={status === 'online' ? "#22d3ee" : status === 'error' ? "#f43f5e" : "#fbbf24"}
                     strokeWidth={2} 
                     dot={false}
                     isAnimationActive={true}

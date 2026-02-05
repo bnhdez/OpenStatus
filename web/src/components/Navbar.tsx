@@ -9,12 +9,12 @@ interface NavbarProps {
 
 export function Navbar({ session, onLogin, onLogout }: NavbarProps) {
     return (
-        <nav className="bg-slate-950 border-b border-slate-800">
+        <nav className="w-full bg-black/50 backdrop-blur-xl border-b border-zinc-800 sticky top-0 z-50">
             <div className="mx-auto max-w-7xl px-6 py-4">
                 <div className="flex items-center justify-between">
                 {/* Left: Logo */}
                     <div className="flex items-center gap-2 mr-4">
-                        <Activity className="w-6 h-6 text-emerald-500" />
+                        <Activity className="w-6 h-6 text-indigo-500" />
                         <span className="text-xl font-bold text-white">OpenStatus</span>
                     </div>
 
@@ -22,10 +22,7 @@ export function Navbar({ session, onLogin, onLogout }: NavbarProps) {
                     <div className="flex items-center gap-4">
                         {/* System Status Badge */}
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                            <span className="text-sm font-medium text-green-500">
-                                System Operational
-                            </span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </div>
 
                         {/* Divider */}
@@ -35,9 +32,9 @@ export function Navbar({ session, onLogin, onLogout }: NavbarProps) {
                         {session ? (
                         <>
                             {/* Admin Mode Badge */}
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                            <Shield className="w-4 h-4 text-emerald-500" />
-                            <span className="text-sm font-medium text-emerald-500">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
+                            <Shield className="w-4 h-4 text-indigo-500" />
+                            <span className="text-sm font-medium text-indigo-500">
                                 Admin Mode
                             </span>
                             </div>

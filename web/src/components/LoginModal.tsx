@@ -34,7 +34,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
             <div className="bg-slate-900 border border-slate-700 p-6 rounded-lg max-w-sm w-full shadow-2xl">
                 
                 <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-emerald-400">Admin Access 🛡️</h3>
+                <h3 className="text-xl font-bold text-indigo-400">Admin Access 🛡️</h3>
                 <button onClick={onClose} className="text-slate-400 hover:text-white">✕</button>
                 </div>
 
@@ -43,7 +43,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
                     <input
                         type="text" 
                         placeholder="Usuario"
-                        className="bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-emerald-500"
+                        className="bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-indigo-500"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
@@ -53,7 +53,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
                     <input
                         type="password"
                         placeholder="Contraseña"
-                        className="bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-emerald-500"
+                        className="bg-slate-800 border border-slate-600 text-white p-2 rounded focus:outline-none focus:border-indigo-500"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -61,7 +61,7 @@ const LoginModal = ({isOpen, onClose}: Props) => {
 
                     <button 
                         type="submit"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded font-bold transition-colors"
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded font-bold transition-colors"
                     >
                         Entrar
                     </button>
