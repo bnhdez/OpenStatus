@@ -84,8 +84,18 @@ function App() {
 
       </main>
 
-      <footer className="mt-auto py-8 text-zinc-400 dark:text-zinc-600 text-xs">
-        <span>© 2026 OpenStatus - Design and code by Boris Hernández</span>
+      <footer className="mt-auto py-8 text-zinc-400 dark:text-zinc-600 text-xs text-center relative z-10">
+        <span>
+            © 2026 OpenStatus - Design and code by{' '}
+            <a 
+                href="https://bnhdez.github.io/Portafolio-Profesional/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-indigo-500 underline transition-colors font-medium"
+            >
+                Boris Hernández
+            </a>
+        </span>
       </footer>
 
       {/* EL MODAL */}
